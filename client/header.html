@@ -1,0 +1,108 @@
+<div class="header">
+    <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="#"><img src="./assests/GAIBoxing.png" alt=""></a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="#">Home Page</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">About Us</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="products.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  Products
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="products.html">Gloves</a></li>
+                  <li><a class="dropdown-item" href="products.html">Protectors</a></li>
+                  <li><a class="dropdown-item" href="products.html">Shotrs</a></li>
+                  <li><a class="dropdown-item" href="products.html">Tops & T-Shirts</a></li>
+                  <li><a class="dropdown-item" href="products.html">Accessories</a></li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hi <span id="username"></span></a>
+
+                <script>
+
+                    //בישביל שיהיה באות גדולה השם 
+                  document.addEventListener('DOMContentLoaded', function() {
+                    const customer = JSON.parse(sessionStorage.getItem('customer'));
+                    const firstName = customer.customerName.split(' ')[0].charAt(0).toUpperCase() + customer.customerName.split(' ')[0].slice(1);
+                    const lastName = customer.customerName.split(' ')[1].charAt(0).toUpperCase() + customer.customerName.split(' ')[1].slice(1);
+                    document.getElementById('username').textContent = firstName + ' ' + lastName;
+                  });
+                </script>
+
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">My Profile</a></li>
+                    <li><a class="dropdown-item" href="#">My Orders</a></li>
+                    <li><a class="dropdown-item" id="logout" href="#">Log out</a></li>
+
+                    <script>
+                      document.getElementById('logout').addEventListener('click', logout);
+
+                        function logout() {
+                            // Clear the session storage
+                            sessionStorage.removeItem('customer');
+                            localStorage.removeItem('logged_in');
+                            // Redirect to the login page or perform any other actions
+                            window.location.replace("login.html");
+                        }
+                    </script>
+                </ul>
+              </li>
+            </ul>
+            <form class="d-flex" role="search" action="search.html" method="get">
+                <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-pink" style="border: 1.8px solid #FD85FF; color: #FD85FF;" type="submit">Search</button>
+              </form>
+              
+              <script>
+                document.querySelector('form[role="search"]').addEventListener('submit', function(e) {
+                  e.preventDefault(); // Prevent the default form submission
+                  var searchValue = document.getElementById('searchInput').value;
+                  // Save the search value to localStorage
+                  localStorage.setItem('search', searchValue);
+                  // Redirect to the search results page
+                  window.location.href = "search.html";
+                });
+              </script>
+              
+            
+            <script>
+                document.querySelector('form').addEventListener('submit', function(event) {
+                    event.preventDefault(); // Prevent form submission
+            
+                    var searchValue = document.getElementById('searchInput').value.trim();
+            
+                    // Encode the search value and append it as a query parameter to the URL
+                    var encodedValue = encodeURIComponent(searchValue);
+                    var url = "search.html?value=" + encodedValue;
+            
+                    // Redirect to the search.html page with the updated URL
+                    window.location.href = url;
+                });
+            </script>
+            
+            
+            
+          </div>
+        </div>
+      </nav>
+
+      <div class="mainHeader">
+        <div class="title">
+            “If you work hard in training ,  <br>
+            the fight is easy .” 
+        </div>
+        <div class="become">
+            Become A <span style="font-weight: bold;">Champion →</span>
+        </div>
+      </div>
+</div>

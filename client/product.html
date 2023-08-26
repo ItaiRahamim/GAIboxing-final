@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <style>
+      .cart_btn{
+    background-color: black;
+    border: none;
+    color: #FEDAFF;
+}
+    </style>
+    <title>GAI Boxing Store</title>
+    <link rel="stylesheet" type="text/css" href="/css/search.css" />
+    <style>
+          @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        body{
+            font-family: 'Exo 2', sans-serif;
+        }
+        #title{
+            font-size: 3.4vh;
+            font-weight: bold;
+        }
+        #productPrice{
+            font-size: 2.5vh;
+            padding-top: 3vh;
+            padding-bottom: 2vh;
+        }
+        #description{
+            padding-bottom: 2vh;
+        }
+        .productContext{
+            margin: auto 0;
+        }
+    </style>
+  <style>
+    .floating-indicator {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #FD85FF;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      display: none; /* Start with the indicator hidden */
+    }
+  </style>
+  
+</head>
+<body>
+  <div id="floating-indicator" class="floating-indicator">Product added to cart!</div>
+
+    <div class="header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#"><img src="./assests/GAIBoxing.png" alt=""></a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" style="color: white;" aria-current="page" href="index.html">Home Page</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">About Us</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Products
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Gloves</a></li>
+                      <li><a class="dropdown-item" href="#">Protectors</a></li>
+                      <li><a class="dropdown-item" href="#">Shorts</a></li>
+                      <li><a class="dropdown-item" href="#">Tops &amp; T-Shirts</a></li>
+                      <li><a class="dropdown-item" href="#">Accessories</a></li>
+                    </ul>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hi <span id="username"></span></a>
+
+                    <script>
+                      document.addEventListener('DOMContentLoaded', function() {
+                        const customer = JSON.parse(sessionStorage.getItem('customer'));
+                        const firstName = customer.customerName.split(' ')[0].charAt(0).toUpperCase() + customer.customerName.split(' ')[0].slice(1);
+                        const lastName = customer.customerName.split(' ')[1].charAt(0).toUpperCase() + customer.customerName.split(' ')[1].slice(1);
+                        document.getElementById('username').textContent = firstName + ' ' + lastName;
+                      });
+                    </script>
+
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">My Profile</a></li>
+                        <li><a class="dropdown-item" href="#">My Orders</a></li>
+                        <li><a class="dropdown-item" id="logout" href="#">Log out</a></li>
+
+                        <script>
+                          document.getElementById('logout').addEventListener('click', logout);
+
+                          function logout() {
+                              // Clear the session storage
+                              sessionStorage.removeItem('customer');
+                              localStorage.removeItem('logged_in');
+                              // Redirect to the login page or perform any other actions
+                              window.location.replace("login.html");
+                          }
+                        </script>
+                    </ul>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="cart.html"><img src="./assests/market.png" style="margin: 0 !important; padding: 0 !important;" width="30" alt=""></a>
+                  </li>
+                </ul>
+                <form class="d-flex" role="search">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-input">
+                  <button class="btn btn-outline-pink" style="border: 1.8px solid #FD85FF; color: #FD85FF;" type="submit">Search</button>
+                </form>
+              </div>
+            </div>
+          </nav>
+    </div>
+    <div class="main">
+        <div class="container mt-5">
+            <div class="row">
+                <div class="col-6"><img src="" style="width: 80%;" id="productImage" alt=""></div>
+                <div class="col-6 productContext">
+                    <div id="title"></div>
+                    <div id="productPrice"></div>
+                    <h4 style="color: #FD85FF;">DESCRIPTION</h4>
+                    <div id="description"></div>
+                    <div class="row">
+                      <div class="col-6">
+                        <h4 style="color: #FD85FF;">SIZE</h4>
+                        <div id="size"></div>
+                      </div>
+                      <div class="col-6">
+                        <h4 style="color: #FD85FF;">QUANTITY</h4>
+                        <input type="number" id="quantity" name="quantity" min="1" max="10" value="1">
+                      </div>
+                    </div>
+                    
+                    <button type="button" class="btn cart_btn" id="cartBtn">Add to Cart</button>
+
+                    <script>
+                         const cartBtn = document.getElementById("cartBtn");
+        let cart = [];
+
+        var existingCart = sessionStorage.getItem("cart");
+        if (existingCart) {
+            cart = JSON.parse(existingCart);
+        }
+
+        // Add a click event listener
+        cartBtn.addEventListener("click", function() {
+            // Get the quantity input element
+            const quantityInput = document.getElementById("quantity");
+
+            // Get the value of the quantity input
+            const quantityValue = quantityInput.value;
+
+            // Get and store product details (replace 'productDetails' with actual data)
+            const product = {
+                quantity: quantityValue,
+                productDetail: localStorage.getItem('pd')
+            };
+
+            cart.push(product);
+
+            // Log the quantity value to the console
+            sessionStorage.setItem("cart", JSON.stringify(cart));
+
+            // Log the cart array to the console
+            console.log("Updated Cart:", cart);
+
+            alert("Product Added to Cart");
+            floatingIndicator.style.display = "block";
+
+            // Hide the indicator after a delay (e.g., 3 seconds)
+            setTimeout(function() {
+              floatingIndicator.style.display = "none";
+            }, 3000); // 3000 milliseconds = 3 seconds
+        });
+                    </script>
+                </div>
+                
+                <script>
+
+        // Get the current URL
+        const url = window.location.href;
+
+// Split the URL using the 'id=' parameter
+const urlParts = url.split('id=');
+
+// Extract the last part of the URL, which should be the id
+const idWithPercent27 = urlParts[urlParts.length - 1];
+
+// Split the id using '%27'
+const idParts = idWithPercent27.split('%27');
+
+// Extract the actual id
+
+console.log(idParts);
+        function getProductById() {
+  $.ajax({
+    url: 'http://localhost:3000/api/products/' + idParts[1],
+    type: 'GET',
+    dataType: 'json',
+    success: function(data) {
+      console.log(data); // Call displayProduct with the retrieved product data
+      document.getElementById('productImage').src = data.productImage;
+      document.getElementById('title').textContent = data.productName;
+      document.getElementById('productPrice').textContent = data.productPrice + '$';
+      document.getElementById('description').textContent = data.description;
+      document.getElementById('size').textContent = data.size;
+
+
+      localStorage.setItem('pd', JSON.stringify(data));
+
+      console.log(localStorage.getItem('pd'));
+    },
+    error: function(xhr, status, error) {
+      console.error(status + ': ' + error);
+    }
+  });
+}
+
+ getProductById();
+
+
+
+                </script>
+            </div>
+        </div>
+    </div>
+
+    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+</body>
+</html>

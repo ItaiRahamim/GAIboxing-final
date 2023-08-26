@@ -1,0 +1,24 @@
+.navbar{
+    width: 80% !important;
+    margin: 0 auto;
+}
+.header{
+    background-image: url('../assests/homepagebannmer.png');
+}
+
+.nav-link{
+    color: white;
+}
+
+
+.card-img-top{
+    width:100%;
+    height:300px;
+    object-fit:cover;
+}
+
+.card{
+    height: 52vh;
+    margin: 5px;
+}
+

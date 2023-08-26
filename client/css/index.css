@@ -1,0 +1,61 @@
+.navbar{
+    width: 80% !important;
+    margin: 0 auto;
+    background: none;
+}
+.header{
+    background-image: url('../assests/homepagebannmer.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 100%;
+    height: 800px;
+}
+.nav-link{
+    color: white !important;
+}
+.title{
+    font-size: 5vh;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    text-align: center;
+}
+.become{
+    background-color: #343434;
+    color: #FD85FF;
+    font-size: 2.5vh;
+    padding: 0.8%;
+    border-radius: 10px;
+    border: none;
+    margin: 0 auto;
+    width: fit-content;
+    display: block;
+    margin-top: 5%;
+}
+.mainHeader{
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.card-price{
+    display: block;
+}
+.card-img-top{
+    width:100%;
+    height:300px;
+    object-fit:cover;
+}
+
+.card{
+    height: 52vh;
+    margin: 5px;
+}
+.cart_btn{
+    background-color: black;
+    border: none;
+    color: #FEDAFF;
+}
+.productClick{
+    text-decoration: none;
+}

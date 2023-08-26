@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <title>GAI Boxing Store</title>
+    <link rel="stylesheet" type="text/css" href="/css/search.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        body{
+            font-family: 'Exo 2', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#"><img src="./assests/GAIBoxing.png" alt=""></a>
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+              <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                  <li class="nav-item">
+                    <a class="nav-link active" style="color: white;" aria-current="page" href="index.html">Home Page</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">About Us</a>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Products
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Gloves</a></li>
+                      <li><a class="dropdown-item" href="#">Protectors</a></li>
+                      <li><a class="dropdown-item" href="#">Shorts</a></li>
+                      <li><a class="dropdown-item" href="#">Tops &amp; T-Shirts</a></li>
+                      <li><a class="dropdown-item" href="#">Accessories</a></li>
+                    </ul>
+                  </li>
+                  <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Hi <span id="username"></span></a>
+
+                    <script>
+                      document.addEventListener('DOMContentLoaded', function() {
+                        const customer = JSON.parse(sessionStorage.getItem('customer'));
+                        const firstName = customer.customerName.split(' ')[0].charAt(0).toUpperCase() + customer.customerName.split(' ')[0].slice(1);
+                        const lastName = customer.customerName.split(' ')[1].charAt(0).toUpperCase() + customer.customerName.split(' ')[1].slice(1);
+                        document.getElementById('username').textContent = firstName + ' ' + lastName;
+                      });
+                    </script>
+
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">My Profile</a></li>
+                        <li><a class="dropdown-item" href="#">My Orders</a></li>
+                        <li><a class="dropdown-item" id="logout" href="#">Log out</a></li>
+
+                        <script>
+                          document.getElementById('logout').addEventListener('click', logout);
+
+                          function logout() {
+                              // Clear the session storage
+                              sessionStorage.removeItem('customer');
+                              localStorage.removeItem('logged_in');
+                              // Redirect to the login page or perform any other actions
+                              window.location.replace("login.html");
+                          }
+                        </script>
+                    </ul>
+                  </li>
+                </ul>
+                <form class="d-flex" role="search">
+                  <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" id="search-input">
+                  <button class="btn btn-outline-pink" style="border: 1.8px solid #FD85FF; color: #FD85FF;" type="submit">Search</button>
+                </form>
+              </div>
+            </div>
+          </nav>
+    </div>
+
+
+    <div class="container">
+        <div class="row" id="product-container">
+          <!-- This is where the dynamically generated product cards will be inserted -->
+        </div>
+    </div>
+        
+    <script>
+        function getAllProducts() {
+          $.ajax({
+            url: 'http://localhost:3000/api/products',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+              displayProducts(data); // Call displayProducts with the retrieved data
+            },
+            error: function(xhr, status, error) {
+              console.error(status + ': ' + error);
+            }
+          });
+        }
+
+        function displayProducts(products) {
+          const container = document.getElementById('product-container');
+          const searchInput = document.getElementById('search-input').value.toLowerCase();
+
+          // Clear the previous products
+          container.innerHTML = '';
+
+          products.forEach((product) => {
+            // Split the search input into individual keywords
+            const searchKeywords = searchInput.split(' ');
+
+            // Check if the product name contains any of the search keywords
+            const containsKeyword = searchKeywords.some(keyword => product.productName.toLowerCase().includes(keyword));
+
+            if (!searchInput || containsKeyword) {
+              const cardDiv = document.createElement('div');
+              cardDiv.classList.add('col-3');
+
+              const card = document.createElement('div');
+              card.classList.add('card');
+              card.style.width = '18rem';
+
+              const image = document.createElement('img');
+              image.classList.add('card-img-top');
+              image.src = product.productImage;
+              image.alt = 'Product Image';
+
+              const cardBody = document.createElement('div');
+              cardBody.classList.add('card-body');
+
+              const title = document.createElement('h5');
+              title.classList.add('card-title');
+              title.textContent = product.productName;
+
+              const price = document.createElement('p');
+              price.classList.add('card-text');
+              price.textContent = product.productPrice + "$";
+
+              const description = document.createElement('p');
+              description.classList.add('card-text');
+              description.textContent = product.description;
+
+              const link = document.createElement('a');
+              link.href = '#';
+              link.classList.add('btn', 'btn-primary');
+              link.textContent = 'Add to cart';
+
+              cardBody.appendChild(title);
+              cardBody.appendChild(price);
+              cardBody.appendChild(description);
+              cardBody.appendChild(link);
+
+              card.appendChild(image);
+              card.appendChild(cardBody);
+
+              cardDiv.appendChild(card);
+
+              container.appendChild(cardDiv);
+            }
+          });
+        }
+
+    document.getElementById('search-input').value = localStorage.getItem('search');
+
+  // Add an event listener to the search input
+  document.getElementById('search-input').addEventListener('input', function(e) {
+    // Store the search query in localStorage
+    localStorage.setItem('search', e.target.value);
+    getAllProducts();
+  });
+
+  getAllProducts();
+
+    </script>
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js" integrity="sha384-fbbOQedDUMZZ5KreZpsbe1LCZPVmfTnH7ois6mU1QK+m14rQ1l2bGBq41eYeM/fS" crossorigin="anonymous"></script>
+</body>
+</html>

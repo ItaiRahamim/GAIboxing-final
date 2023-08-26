@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAI Boxing Store</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="./css/login.css" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        body{
+            font-family: 'Exo 2', sans-serif;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="main">  	
+		<input type="checkbox" id="chk" aria-hidden="true">
+
+			<div class="signup">
+				<form id="register-form">
+					<label for="chk" aria-hidden="true">Sign up</label>
+					<input type="text" name="txt" placeholder="Name" id="name1" required="">
+					<input type="text" name="text" placeholder="Username" id="username1" required="">
+					<input type="password" name="password" placeholder="Password" id="password1" required="">
+                    <button type="submit">Sign up</button>
+				</form>
+			</div>
+
+			<form class="login" id="login-form">
+				<form>
+					<label for="chk" aria-hidden="true">Login</label>
+					<input type="text" name="username" placeholder="Username" id="username" required="">
+					<input type="password" name="password" id="password" placeholder="Password" required="">
+                    <button type="submit">Login</button>
+				</form>
+			</form>
+	</div>
+<!-- 
+    <form id="login-form">
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" required>
+        </div>
+        <div>
+            <button type="submit">Login</button>
+        </div>
+        <span>Don't have an Account? <a href="signup.html">Register</a></span>
+    </form> -->
+
+    <script>
+        function login() {
+            // Get the form data
+            const customerUsername = document.getElementById('username').value;
+            const customerPassword = document.getElementById('password').value;
+
+            // Create the request body
+            const data = {
+                customerUsername: customerUsername,
+                customerPassword: customerPassword
+            };
+
+            // Send the AJAX request
+            $.ajax({
+                url: 'http://localhost:3000/api/customers/login',
+                type: 'POST',
+                dataType: 'json',
+                data: data,
+                success: function(response) {
+                    // Handle successful login
+                    console.log(response);
+                    localStorage.setItem('logged_in', 1);
+                    sessionStorage.setItem('customer', JSON.stringify(response));
+                    window.location.replace("index.html");
+
+                    // Redirect to the desired page or perform any other actions
+                },
+                error: function(xhr, status, error) {
+                    // Handle login error
+                    console.error(status + ': ' + error);
+                    // Display error message to the user or perform any other actions
+                }
+            });
+        }
+
+        // Add an event listener to the login form submission
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            login(); // Call the login function to handle the form submission
+
+        });
+    </script>
+
+<script>
+    function register() {
+// Get the form data
+const name = document.getElementById('name1').value;
+const username = document.getElementById('username1').value;
+const password = document.getElementById('password1').value;
+
+// Create the request body
+const data = {
+    customerName: name,
+    customerUsername: username,
+    customerPassword: password
+};
+
+// Send the AJAX request
+$.ajax({
+    url: 'http://localhost:3000/api/customers/register',
+    type: 'POST',
+    dataType: 'json',
+    data: data,
+    success: function(response) {
+        // Handle successful registration
+        console.log(response);
+                    localStorage.setItem('logged_in', 1);
+                    sessionStorage.setItem('customer', JSON.stringify(response));
+                    window.location.replace("index.html");
+        // Display success message to the user or perform any other actions
+    },
+    error: function(xhr, status, error) {
+        // Handle registration error
+        console.error(status + ': ' + error);
+        // Display error message to the user or perform any other actions
+    }
+    });
+}
+
+// Add an event listener to the register form submission
+document.getElementById('register-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+    register(); // Call the register function to handle the form submission
+});
+</script>
+</body>
+</html>

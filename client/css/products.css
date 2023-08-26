@@ -1,0 +1,49 @@
+.navbar{
+    width: 80% !important;
+    margin: 0 auto;
+}
+.header{
+    background-image: url('../assests/homepagebannmer.png');
+}
+
+.nav-link{
+    color: white;
+}
+
+
+.card-img-top{
+    width:100%;
+    height:300px;
+    object-fit:cover;
+}
+
+.card{
+    height: fit-content;
+    margin: 5px;
+}
+.cardBody{
+    text-decoration: none;
+}
+
+.category_btn{
+    background: none;
+    border: none;
+}
+
+
+.category_btn:hover{
+    background-color: #FEDAFF;
+}
+
+.card-category{
+    background-color: #FEDAFF;
+    width: fit-content;
+    padding: 2px;
+    text-transform: uppercase;
+}
+
+.cart_btn{
+    background-color: black;
+    border: none;
+    color: #FEDAFF;
+}

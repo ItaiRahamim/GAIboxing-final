@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GAI Boxing Store</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+        body{
+            font-family: 'Exo 2', sans-serif;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+  
+
+    <h1>Registration Form</h1>
+    <form id="register-form">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name1" required>
+        </div>
+        <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username1" required>
+        </div>
+        <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password1" required>
+        </div>
+        <div>
+            <button type="submit">Register</button>
+        </div>
+        <span>Already Have a Account? <a href="login.html">Sign In</a></span>
+    </form>
+
+    <script>
+        function register() {
+    // Get the form data
+    const name = document.getElementById('name1').value;
+    const username = document.getElementById('username1').value;
+    const password = document.getElementById('password1').value;
+
+    // Create the request body
+    const data = {
+        customerName: name,
+        customerUsername: username,
+        customerPassword: password
+    };
+
+    // Send the AJAX request
+    $.ajax({
+        url: 'http://localhost:3000/api/customers/register',
+        type: 'POST',
+        dataType: 'json',
+        data: data,
+        success: function(response) {
+            // Handle successful registration
+            console.log(response);
+            // Display success message to the user or perform any other actions
+        },
+        error: function(xhr, status, error) {
+            // Handle registration error
+            console.error(status + ': ' + error);
+            // Display error message to the user or perform any other actions
+        }
+        });
+    }
+
+    // Add an event listener to the register form submission
+    document.getElementById('register-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the default form submission
+        register(); // Call the register function to handle the form submission
+    });
+    </script>
+
+</body>
+</html>
